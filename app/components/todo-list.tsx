@@ -4,12 +4,18 @@ import { use } from "react";
 
 
 
-export default function TodoList ()  {
-    const { todosPromise } = useTodosContext()
-    const todos = use(todosPromise)
+export default function TodoList() {
+  const todosContext = useTodosContext();
 
-    return (
-        <ul className="mx-auto max-w-[200px] mt-8 text-center">
+  if (!todosContext) {
+    return <div>Loading here...</div>;
+  }
+
+  const { todosPromise } = todosContext;
+  const todos = use(todosPromise);
+
+  return (
+    <ul className="mx-auto max-w-[200px] mt-8 text-center">
       {
         todos.map((todo: { id: number | undefined, title: string; }) => (
           <li key={todo.id} onClick={() => console.log('clicked listitem')}>
@@ -17,7 +23,7 @@ export default function TodoList ()  {
           </li>
         ))
       }
-      </ul>
-    )
+    </ul>
+  )
 
 }
